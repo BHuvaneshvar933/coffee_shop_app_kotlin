@@ -55,12 +55,12 @@ This project uses **Firebase** for:
       <img src="app/sampledata/s3.jpeg" alt="Product Details" width="300"/><br/>
       <b>Product Details</b>
     </td>
-  </tr>
-  <tr>
     <td align="center">
       <img src="app/sampledata/s1.jpeg" alt="Product List" width="300"/><br/>
       <b>Product List</b>
     </td>
+  </tr>
+  <tr>
     <td align="center">
       <img src="app/sampledata/s2.jpeg" alt="Cart Page" width="300"/><br/>
       <b>Cart Page</b>
