@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">delivery_app</string>
+    <string name="choose_your_nfavorite_coffee">Choose Your\nFavorite Coffee</string>
+    <string name="get_started">Get Started</string>
+    <string name="search_anything">Search Anything...</string>
+    <string name="popular_coffees">Popular Coffees</string>
+    <string name="cart">Cart</string>
+    <string name="explorer">Explorer</string>
+    <string name="wishlist">Wishlist</string>
+    <string name="my_orders">My orders</string>
+    <string name="profile">Profile</string>
+    <string name="orders">Orders</string>
+    <string name="enter_your_discount_code">Enter your Discount Code</string>
+    <string name="apply">Apply</string>
+</resources>
