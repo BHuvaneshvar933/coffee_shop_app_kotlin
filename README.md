@@ -6,6 +6,7 @@ An elegant and functional food delivery Android application built using **Kotlin
 
 ## 🚀 Features
 
+- 📷 Dynamic Image & Product Data (from **Firebase Realtime Database / Firestore** + **Firebase Storage**)
 - 🛒 Add/Remove items from cart
 - ➕ Increase or decrease item quantity
 - 💸 Apply discount code input field
@@ -15,33 +16,58 @@ An elegant and functional food delivery Android application built using **Kotlin
 
 ---
 
-## 🧰 Built With
+## 🔥 Firebase Integration
 
-- Kotlin
-- Android SDK (min SDK 24)
-- RecyclerView
-- SQLite (custom handler)
-- Material Design Components (Material 3)
-- AndroidX libraries
+This project uses **Firebase** for:
+
+- **Realtime Product Data**: Item names, descriptions, prices, ratings.
+- **Image Hosting**: Product pictures are fetched from **Firebase Storage**.
+- You can easily extend it to support:
+  - User Authentication
+  - Order History
+  - Realtime Cart Sync (Firestore)
+
+---
+
+## 🧰 Tech Stack
+
+| Category       | Stack                        |
+|----------------|------------------------------|
+| Language       | Kotlin                       |
+| Architecture   | MVVM                         |
+| UI             | ConstraintLayout, RecyclerView |
+| Image Loading  | Glide                        |
+| Backend        | Firebase (Database + Storage)|
+| Local Storage  | TinyDB (SharedPreferences)   |
 
 ---
 
 
 ## 🖼️ Screenshots
 
-### Home Screen
-<img src="app/sampledata/s4.jpeg" alt="Home Screen" width="300"/>
+<table>
+  <tr>
+    <td align="center">
+      <img src="app/sampledata/s4.jpeg" alt="Home Screen" width="300"/><br/>
+      <b>Home Screen</b>
+    </td>
+    <td align="center">
+      <img src="app/sampledata/s3.jpeg" alt="Product Details" width="300"/><br/>
+      <b>Product Details</b>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <img src="app/sampledata/s1.jpeg" alt="Product List" width="300"/><br/>
+      <b>Product List</b>
+    </td>
+    <td align="center">
+      <img src="app/sampledata/s2.jpeg" alt="Cart Page" width="300"/><br/>
+      <b>Cart Page</b>
+    </td>
+  </tr>
+</table>
 
-### Product Details
-<img src="app/sampledata/s3.jpeg" alt="Edit Task" width="300"/>
-
-### Product List
-<img src="app/sampledata/s1.jpeg" alt="Edit Task" width="300"/>
-
-### Cart Page
-<img src="app/sampledata/s2.jpeg" alt="Edit Task" width="300"/>
-
----
 
 ## 📂 Project Structure
 ```
@@ -123,7 +149,7 @@ app/
 ## 🧠 What's Next
 
 - Complete the details in Explore, Wishlist, orders, and Profile
-- Add Google login
+- 🔐 Firebase Authentication
 
 ---
 
