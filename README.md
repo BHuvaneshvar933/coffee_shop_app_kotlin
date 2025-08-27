@@ -156,9 +156,6 @@ app/
 ## 🤝 Contributing
 - PRs are welcome! If you have ideas for new features or improvements, feel free to fork the repo and submit a pull request.
 
-## 📜 License
-- This project is licensed under the MIT License - see the LICENSE file for details.
-
 ## 👨‍💻 Author
 - C. Bhuvaneshvar Reddy
 
