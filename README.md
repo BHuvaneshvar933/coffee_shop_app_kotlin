@@ -1,22 +1,22 @@
-# 📦 Delivery App - Android
+# Delivery App - Android
 
 An elegant and functional food delivery Android application built using **Kotlin**, **XML (Jetpack Layouts)**, and **Android Jetpack components**. Users can browse food items, add them to cart, apply discount codes, and proceed to checkout.
 
 ---
 
-## 🚀 Features
+## Features
 
-- 📷 Dynamic Image & Product Data (from **Firebase Realtime Database / Firestore** + **Firebase Storage**)
-- 🛒 Add/Remove items from cart
-- ➕ Increase or decrease item quantity
-- 💸 Apply discount code input field
-- 📦 View subtotal, tax, delivery fee, and total
-- 🖼️ Product image loading using **Glide**
-- 📦 Cart management using custom `TinyDB` helper (local storage)
+- Dynamic Image & Product Data (from **Firebase Realtime Database / Firestore** + **Firebase Storage**)
+- Add/Remove items from cart
+- Increase or decrease item quantity
+- Apply discount code input field
+- View subtotal, tax, delivery fee, and total
+- Product image loading using **Glide**
+- Cart management using custom `TinyDB` helper (local storage)
 
 ---
 
-## 🔥 Firebase Integration
+## Firebase Integration
 
 This project uses **Firebase** for:
 
@@ -29,7 +29,7 @@ This project uses **Firebase** for:
 
 ---
 
-## 🧰 Tech Stack
+## Tech Stack
 
 | Category       | Stack                        |
 |----------------|------------------------------|
@@ -43,7 +43,7 @@ This project uses **Firebase** for:
 ---
 
 
-## 🖼️ Screenshots
+## Screenshots
 
 <table>
   <tr>
@@ -69,7 +69,7 @@ This project uses **Firebase** for:
 </table>
 
 
-## 📂 Project Structure
+## Project Structure
 ```
 app/
 ├── manifests/
@@ -125,7 +125,7 @@ app/
 │ └── data_extraction_rules.xml
 ```
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 - **Language:** Kotlin  
 - **UI:** XML + ConstraintLayout + RecyclerView  
@@ -135,7 +135,7 @@ app/
 
 ---
 
-## 🧪 Setup & Run
+## Setup & Run
 
 1. Clone the repo:
    ```bash
@@ -146,16 +146,16 @@ app/
 
 4. Run on emulator or connected device.
 
-## 🧠 What's Next
+## What's Next
 
 - Complete the details in Explore, Wishlist, orders, and Profile
-- 🔐 Firebase Authentication
+- Firebase Authentication
 
 ---
 
-## 🤝 Contributing
+## Contributing
 - PRs are welcome! If you have ideas for new features or improvements, feel free to fork the repo and submit a pull request.
 
-## 👨‍💻 Author
+## Author
 - C. Bhuvaneshvar Reddy
 
