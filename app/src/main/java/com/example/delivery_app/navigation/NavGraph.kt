@@ -27,6 +27,9 @@ sealed class Screen(val route: String) {
     object SavedAddresses : Screen("saved_addresses")
     object AccountSettings : Screen("account_settings")
     object HelpSupport : Screen("help_support")
+    object LiveTracking : Screen("live_tracking/{orderId}") {
+        fun createRoute(orderId: String) = "live_tracking/$orderId"
+    }
 }
 
 @Composable
@@ -83,6 +86,7 @@ fun DeliveryNavGraph(navController: NavHostController) {
                 onNavigateToAddresses = { navController.navigate(Screen.SavedAddresses.route) },
                 onNavigateToSettings = { navController.navigate(Screen.AccountSettings.route) },
                 onNavigateToHelp = { navController.navigate(Screen.HelpSupport.route) },
+                onNavigateToTracking = { orderId -> navController.navigate(Screen.LiveTracking.createRoute(orderId)) },
                 onLogout = {
                     com.google.firebase.auth.FirebaseAuth.getInstance().signOut()
                     navController.navigate(Screen.Intro.route) {
@@ -151,6 +155,13 @@ fun DeliveryNavGraph(navController: NavHostController) {
         }
         composable(Screen.HelpSupport.route) {
             com.example.delivery_app.ui.screens.HelpSupportScreen(
+                onNavigateBack = { navController.popBackStack() }
+            )
+        }
+        composable(Screen.LiveTracking.route) { backStackEntry ->
+            val orderId = backStackEntry.arguments?.getString("orderId") ?: ""
+            com.example.delivery_app.ui.screens.LiveTrackingScreen(
+                orderId = orderId,
                 onNavigateBack = { navController.popBackStack() }
             )
         }

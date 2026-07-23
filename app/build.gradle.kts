@@ -84,5 +84,7 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
 // Glide removed
     implementation("com.google.code.gson:gson:2.13.1")
+    implementation("com.google.android.gms:play-services-maps:18.2.0")
+    implementation("com.google.maps.android:maps-compose:4.3.0")
 }
 

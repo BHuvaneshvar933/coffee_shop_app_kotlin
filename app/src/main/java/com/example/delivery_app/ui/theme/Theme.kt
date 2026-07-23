@@ -16,15 +16,15 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
-val PrimaryLight = Color(0xFF8B5A2B)
+val PrimaryLight = Color(0xFF430198) // Zepto Purple
 val OnPrimaryLight = Color(0xFFFFFFFF)
-val PrimaryContainerLight = Color(0xFFFFDCC2)
-val OnPrimaryContainerLight = Color(0xFF2E1500)
+val PrimaryContainerLight = Color(0xFFE8DDFF)
+val OnPrimaryContainerLight = Color(0xFF1B0047)
 
-val PrimaryDark = Color(0xFFFFB77C)
-val OnPrimaryDark = Color(0xFF4C2700)
-val PrimaryContainerDark = Color(0xFF6A3B00)
-val OnPrimaryContainerDark = Color(0xFFFFDCC2)
+val PrimaryDark = Color(0xFFB990FF)
+val OnPrimaryDark = Color(0xFF2B0068)
+val PrimaryContainerDark = Color(0xFF380084)
+val OnPrimaryContainerDark = Color(0xFFE8DDFF)
 
 private val LightColorScheme = lightColorScheme(
     primary = PrimaryLight,

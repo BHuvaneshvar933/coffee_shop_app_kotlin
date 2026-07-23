@@ -39,6 +39,7 @@ fun MainScreen(
     onNavigateToAddresses: () -> Unit = {},
     onNavigateToSettings: () -> Unit = {},
     onNavigateToHelp: () -> Unit = {},
+    onNavigateToTracking: (String) -> Unit = {},
     onLogout: () -> Unit,
     viewModel: MainViewModel = hiltViewModel()
 ) {
@@ -76,9 +77,9 @@ fun MainScreen(
     ) { paddingValues ->
         Box(modifier = Modifier.padding(paddingValues)) {
             when (currentTab) {
-                0 -> HomeContent(viewModel, onNavigateToCart, onNavigateToCategory, onNavigateToDetail, onNavigateToRestaurant)
+                0 -> HomeContent(viewModel, onNavigateToCart, onNavigateToCategory, onNavigateToDetail, onNavigateToRestaurant, onNavigateToSearch = { currentTab = 1 })
                 1 -> SearchContent(viewModel, onNavigateToDetail, onNavigateToRestaurant)
-                2 -> OrdersContent(viewModel)
+                2 -> OrdersContent(viewModel, onNavigateToTracking)
                 3 -> ProfileContent(
                     onNavigateToEditProfile = onNavigateToEditProfile,
                     onNavigateToAddresses = onNavigateToAddresses,
@@ -99,7 +100,8 @@ fun HomeContent(
     onNavigateToCart: () -> Unit,
     onNavigateToCategory: (String, String) -> Unit,
     onNavigateToDetail: (String) -> Unit,
-    onNavigateToRestaurant: (String) -> Unit
+    onNavigateToRestaurant: (String) -> Unit,
+    onNavigateToSearch: () -> Unit
 ) {
     val bannerState = viewModel.bannerState.collectAsState()
     val categoryState = viewModel.categoryState.collectAsState()
@@ -144,24 +146,31 @@ fun HomeContent(
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(paddingValues)
-                    .padding(horizontal = 16.dp),
+                    .padding(paddingValues), // Removed horizontal padding here for full width elements
                 verticalArrangement = Arrangement.spacedBy(24.dp)
             ) {
                 item {
-                    OutlinedTextField(
-                        value = "",
-                        onValueChange = {},
-                        placeholder = { Text("Search for dishes or restaurants") },
-                        leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
-                        modifier = Modifier.fillMaxWidth(),
-                        shape = RoundedCornerShape(16.dp)
-                    )
+                    // Clickable Search Bar
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp)
+                            .padding(top = 8.dp)
+                            .background(MaterialTheme.colorScheme.surfaceVariant, RoundedCornerShape(16.dp))
+                            .clickable { onNavigateToSearch() }
+                            .padding(16.dp)
+                    ) {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Icon(Icons.Default.Search, contentDescription = null, tint = MaterialTheme.colorScheme.onSurfaceVariant)
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Text("Search for dishes or restaurants", color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        }
+                    }
                 }
-                item { BannerSection(bannerState.value) }
-                item { CategorySection(categoryState.value, onNavigateToCategory) }
-                item { RestaurantSection(restaurantState.value, onNavigateToRestaurant) }
-                item { PopularSection(popularState.value, onNavigateToDetail) }
+                item { Box(modifier = Modifier.padding(horizontal = 16.dp)) { BannerSection(bannerState.value) } }
+                item { Box(modifier = Modifier.padding(horizontal = 16.dp)) { CategorySection(categoryState.value, onNavigateToCategory) } }
+                item { Box(modifier = Modifier.padding(horizontal = 16.dp)) { RestaurantSection(restaurantState.value, onNavigateToRestaurant) } }
+                item { Box(modifier = Modifier.padding(horizontal = 16.dp)) { PopularSection(popularState.value, onNavigateToDetail) } }
             }
         }
     }
@@ -325,7 +334,7 @@ fun SearchContent(
 }
 
 @Composable
-fun OrdersContent(viewModel: MainViewModel) {
+fun OrdersContent(viewModel: MainViewModel, onNavigateToTracking: (String) -> Unit) {
     val ordersState by viewModel.ordersState.collectAsState()
 
     LaunchedEffect(Unit) {
@@ -367,6 +376,14 @@ fun OrdersContent(viewModel: MainViewModel) {
                                     }
                                     Spacer(modifier = Modifier.height(8.dp))
                                     Text("${order.items.size} items • $${order.totalPrice}", style = MaterialTheme.typography.bodyMedium)
+                                    Spacer(modifier = Modifier.height(12.dp))
+                                    OutlinedButton(
+                                        onClick = { onNavigateToTracking(order.id) },
+                                        modifier = Modifier.fillMaxWidth(),
+                                        shape = RoundedCornerShape(8.dp)
+                                    ) {
+                                        Text("Track Order")
+                                    }
                                 }
                             }
                         }
@@ -498,28 +515,54 @@ fun CategorySection(state: UiState<List<CategoryModel>>, onCategoryClick: (Strin
                 }
             }
             is UiState.Success -> {
-                LazyRow(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-                    items(state.data) { category ->
-                        Column(
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            modifier = Modifier.clickable { onCategoryClick(category.id.toString(), category.title) }
-                        ) {
-                            AsyncImage(
-                                model = category.picUrl,
-                                contentDescription = category.title,
-                                modifier = Modifier
-                                    .size(60.dp)
-                                    .clip(RoundedCornerShape(12.dp)),
-                                contentScale = ContentScale.Crop
-                            )
-                            Spacer(modifier = Modifier.height(4.dp))
-                            Text(category.title, style = MaterialTheme.typography.bodyMedium)
+                val categories = state.data
+                val row1 = categories.take(categories.size / 2 + categories.size % 2)
+                val row2 = categories.drop(categories.size / 2 + categories.size % 2)
+
+                Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
+                    LazyRow(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+                        items(row1) { category ->
+                            CategoryItem(category, onCategoryClick)
+                        }
+                    }
+                    if (row2.isNotEmpty()) {
+                        LazyRow(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+                            items(row2) { category ->
+                                CategoryItem(category, onCategoryClick)
+                            }
                         }
                     }
                 }
             }
             is UiState.Error -> Text(state.message)
         }
+    }
+}
+
+@Composable
+fun CategoryItem(category: CategoryModel, onCategoryClick: (String, String) -> Unit) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier
+            .width(72.dp)
+            .clickable { onCategoryClick(category.id.toString(), category.title) }
+    ) {
+        Box(
+            modifier = Modifier
+                .size(72.dp)
+                .clip(RoundedCornerShape(36.dp))
+                .background(MaterialTheme.colorScheme.primaryContainer),
+            contentAlignment = Alignment.Center
+        ) {
+            AsyncImage(
+                model = category.picUrl,
+                contentDescription = category.title,
+                modifier = Modifier.size(48.dp).clip(RoundedCornerShape(24.dp)),
+                contentScale = ContentScale.Crop
+            )
+        }
+        Spacer(modifier = Modifier.height(8.dp))
+        Text(category.title, style = MaterialTheme.typography.bodySmall, fontWeight = FontWeight.Medium, maxLines = 1)
     }
 }
 
