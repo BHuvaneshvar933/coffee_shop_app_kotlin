@@ -1,155 +1,79 @@
 # Delivery App - Android
 
-An elegant and functional food delivery Android application built using **Kotlin**, **XML (Jetpack Layouts)**, and **Android Jetpack components**. Users can browse food items, add them to cart, apply discount codes, and proceed to checkout.
+An elegant and functional food delivery Android application built using **Kotlin**, **Jetpack Compose**, and **Clean MVVM Architecture**. Users can browse food items, add them to cart, track their live orders on a map, and manage their profile in a sleek, Zepto-inspired UI.
 
 ---
 
 ## Features
 
-- Dynamic Image & Product Data (from **Firebase Realtime Database / Firestore** + **Firebase Storage**)
-- Add/Remove items from cart
-- Increase or decrease item quantity
-- Apply discount code input field
-- View subtotal, tax, delivery fee, and total
-- Product image loading using **Glide**
-- Cart management using custom `TinyDB` helper (local storage)
-
----
-
-## Firebase Integration
-
-This project uses **Firebase** for:
-
-- **Realtime Product Data**: Item names, descriptions, prices, ratings.
-- **Image Hosting**: Product pictures are fetched from **Firebase Storage**.
-- You can easily extend it to support:
-  - User Authentication
-  - Order History
-  - Realtime Cart Sync (Firestore)
+- **Zepto-Style UI**: Premium purple color scheme, dense category grids, and a clean Material 3 design system.
+- **Dynamic Data**: Real-time fetching of categories, restaurants, and popular items from **Firebase Firestore**.
+- **Live Order Tracking**: Track active deliveries on a real Google Map using **Google Maps Compose**.
+- **Cart Management**: Add/remove items with local persistence using **Room Database**.
+- **Authentication**: Secure login/signup flow using **Firebase Authentication**.
+- **User Profile**: Manage saved addresses, order history, and account settings.
+- **Dark Mode**: Fully supported, beautiful dark mode implementation.
+- **Search System**: Unified search tab for filtering dishes and restaurants.
 
 ---
 
 ## Tech Stack
 
-| Category       | Stack                        |
-|----------------|------------------------------|
-| Language       | Kotlin                       |
-| Architecture   | MVVM                         |
-| UI             | ConstraintLayout, RecyclerView |
-| Image Loading  | Glide                        |
-| Backend        | Firebase (Database + Storage)|
-| Local Storage  | TinyDB (SharedPreferences)   |
+| Category       | Stack                                        |
+|----------------|----------------------------------------------|
+| Language       | Kotlin                                       |
+| UI Toolkit     | Jetpack Compose + Material 3                 |
+| Architecture   | MVVM (Model-View-ViewModel)                  |
+| State Mgmt     | StateFlow + Coroutines                       |
+| Dependency Inj.| Dagger Hilt                                  |
+| Local Storage  | Room Database                                |
+| Backend        | Firebase (Firestore + Auth)                  |
+| Maps           | Google Maps Compose (`play-services-maps`)   |
+| Image Loading  | Coil                                         |
 
 ---
-
-
-## Screenshots
-
-<table>
-  <tr>
-    <td align="center">
-      <img src="app/sampledata/s4.jpeg" alt="Home Screen" width="300"/><br/>
-      <b>Home Screen</b>
-    </td>
-    <td align="center">
-      <img src="app/sampledata/s3.jpeg" alt="Product Details" width="300"/><br/>
-      <b>Product Details</b>
-    </td>
-    <td align="center">
-      <img src="app/sampledata/s1.jpeg" alt="Product List" width="300"/><br/>
-      <b>Product List</b>
-    </td>
-  </tr>
-  <tr>
-    <td align="center">
-      <img src="app/sampledata/s2.jpeg" alt="Cart Page" width="300"/><br/>
-      <b>Cart Page</b>
-    </td>
-  </tr>
-</table>
-
 
 ## Project Structure
 ```
-app/
-├── manifests/
-│ └── AndroidManifest.xml
-├── java/
-│ └── com.example.delivery_app/
-│ ├── Activity/
-│ │ ├── CartActivity.kt
-│ │ ├── DetailActivity.kt
-│ │ ├── ItemsListActivity.kt
-│ │ ├── MainActivity.kt
-│ │ └── SplashActivity.kt
-│ ├── Adapter/
-│ │ ├── CartAdapter.kt
-│ │ ├── CategoryAdapter.kt
-│ │ ├── ItemListCategoryAdapter.kt
-│ │ └── PopularAdapter.kt
-│ ├── Domain/
-│ │ ├── BannerModel.kt
-│ │ ├── CategoryModel.kt
-│ │ └── ItemsModel.kt
-│ ├── Helper/
-│ │ ├── ChangeNumberItemsListener.kt
-│ │ ├── ManagmentCart.kt
-│ │ └── TinyDB.kt
-│ ├── Repository/
-│ │ └── MainRepository.kt
-│ └── ViewModel/
-│ └── MainViewModel.kt
-├── res/
-│ ├── drawable/
-│ │ ├── Icons: back, bell_icon, close, star, plus, profile, search_icon, settings, splash_pic
-│ │ ├── Backgrounds: brown_gradient_bg.xml, brown_storke_bg.xml, cream_bg.xml, white_bg.xml, etc.
-│ ├── layout/
-│ │ ├── activity_cart.xml
-│ │ ├── activity_detail.xml
-│ │ ├── activity_items_list.xml
-│ │ ├── activity_main.xml
-│ │ ├── activity_splash.xml
-│ │ ├── viewholder_cart.xml
-│ │ ├── viewholder_category.xml
-│ │ ├── viewholder_item_list.xml
-│ │ └── viewholder_popular.xml
-│ ├── mipmap/
-│ │ ├── ic_launcher/
-│ │ └── ic_launcher_round/
-│ ├── values/
-│ │ ├── colors.xml
-│ │ ├── strings.xml
-│ │ └── themes.xml
-│ └── xml/
-│ ├── backup_rules.xml
-│ └── data_extraction_rules.xml
+app/src/main/java/com/example/delivery_app/
+├── activity/
+│   └── MainActivity.kt (Single Activity entry point)
+├── di/
+│   └── AppModule.kt (Hilt Dependency Injection)
+├── domain/
+│   └── (Models for Banner, Category, Items, Order, Restaurant)
+├── local/
+│   └── (Room Database entities and DAOs for Cart)
+├── navigation/
+│   └── NavGraph.kt (Compose Navigation)
+├── repository/
+│   └── MainRepository.kt (Firestore data fetching)
+├── ui/
+│   ├── components/ (Reusable UI like Shimmers)
+│   ├── screens/ (Compose screens: Home, Detail, Cart, Login, Tracking...)
+│   └── theme/ (Zepto-style purple theme definitions)
+└── viewmodel/
+    └── (ViewModels for state management)
 ```
-
-## Tech Stack
-
-- **Language:** Kotlin  
-- **UI:** XML + ConstraintLayout + RecyclerView  
-- **Image Loading:** Glide  
-- **Storage:** TinyDB (SharedPreferences wrapper)  
-- **Architecture:** MVVM-like with Helper & Adapter pattern
-
----
 
 ## Setup & Run
 
 1. Clone the repo:
    ```bash
-   git clone https://github.com/your-username/DeliveryApp.git
-2. Open in Android Studio
+   git clone https://github.com/BHuvaneshvar933/coffee_shop_app_kotlin.git
+   ```
+2. Open in Android Studio.
+3. Replace the placeholder Google Maps API Key in `AndroidManifest.xml`.
+4. Connect the app to your own Firebase project (ensure Firestore and Auth are enabled).
+5. Let it sync Gradle files.
+6. Run on an emulator or connected device.
 
-3. Let it sync Gradle files.
-
-4. Run on emulator or connected device.
+---
 
 ## What's Next
 
-- Complete the details in Explore, Wishlist, orders, and Profile
-- Firebase Authentication
+- Implement Live Push Notifications.
+- Payment Gateway Integration (Stripe/Razorpay).
 
 ---
 
@@ -158,4 +82,3 @@ app/
 
 ## Author
 - C. Bhuvaneshvar Reddy
-

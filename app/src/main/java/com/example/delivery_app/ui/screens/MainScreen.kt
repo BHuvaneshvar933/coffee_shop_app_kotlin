@@ -115,38 +115,36 @@ fun HomeContent(
         viewModel.loadRestaurants()
     }
 
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = {
-                    Column {
-                        Text("Delivering to", style = MaterialTheme.typography.bodySmall)
-                        Text("Home, 123 Main St", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
-                    }
-                },
-                actions = {
-                    IconButton(onClick = { /* TODO: Notifications */ }) {
-                        Icon(Icons.Default.Notifications, contentDescription = "Notifications")
-                    }
-                    TextButton(onClick = { viewModel.uploadDummyData() }) {
-                        Text("Load Dummy Data")
-                    }
-                    IconButton(onClick = onNavigateToCart) {
-                        Icon(Icons.Default.ShoppingCart, contentDescription = "Cart")
-                    }
+    Column(modifier = Modifier.fillMaxSize()) {
+        // Custom Dense Top Bar
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 8.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Column {
+                Text("Delivering to", style = MaterialTheme.typography.bodySmall)
+                Text("Home, 123 Main St", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
+            }
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                IconButton(onClick = { /* TODO: Notifications */ }) {
+                    Icon(Icons.Default.Notifications, contentDescription = "Notifications")
                 }
-            )
+                IconButton(onClick = onNavigateToCart) {
+                    Icon(Icons.Default.ShoppingCart, contentDescription = "Cart")
+                }
+            }
         }
-    ) { paddingValues ->
+        
         if (bannerState.value is UiState.Loading || categoryState.value is UiState.Loading || popularState.value is UiState.Loading || restaurantState.value is UiState.Loading) {
-            Box(modifier = Modifier.fillMaxSize().padding(paddingValues), contentAlignment = Alignment.Center) {
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                 CircularProgressIndicator()
             }
         } else {
             LazyColumn(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(paddingValues), // Removed horizontal padding here for full width elements
+                modifier = Modifier.fillMaxSize(),
                 verticalArrangement = Arrangement.spacedBy(24.dp)
             ) {
                 item {
