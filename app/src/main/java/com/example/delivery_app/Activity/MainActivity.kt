@@ -1,76 +1,33 @@
-package com.example.delivery_app.Activity
+package com.example.delivery_app.activity
 
-import android.content.Intent
 import android.os.Bundle
-import android.view.View
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.lifecycle.ViewModel
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.bumptech.glide.Glide
-import com.example.delivery_app.Adapter.CategoryAdapter
-import com.example.delivery_app.Adapter.PopularAdapter
-import com.example.delivery_app.R
-import com.example.delivery_app.ViewModel.MainViewModel
-import com.example.delivery_app.databinding.ActivityMainBinding
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.ui.Modifier
+import androidx.navigation.compose.rememberNavController
+import com.example.delivery_app.navigation.DeliveryNavGraph
+import com.example.delivery_app.ui.theme.DeliveryAppTheme
+import dagger.hilt.android.AndroidEntryPoint
 
-class MainActivity : AppCompatActivity() {
-    private lateinit var binding : ActivityMainBinding
-    private val viewModel = MainViewModel()
-
+@AndroidEntryPoint
+class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        initBanner()
-        initCategory()
-        initPopular()
-        initBottomMenu()
-    }
-
-    private fun initBottomMenu() {
-        binding.cartBtn.setOnClickListener {
-            startActivity(Intent(this, CartActivity::class.java))
+        setContent {
+            DeliveryAppTheme {
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                ) {
+                    val navController = rememberNavController()
+                    DeliveryNavGraph(navController = navController)
+                }
+            }
         }
-    }
-
-    private fun initPopular() {
-        binding.progressBarPopular.visibility = View.VISIBLE
-        viewModel.loadPopular().observeForever {
-            binding.recyclerViewPopular.layoutManager = GridLayoutManager(this, 2)
-            binding.recyclerViewPopular.adapter = PopularAdapter(it)
-            binding.progressBarPopular.visibility = View.GONE
-        }
-
-
-        viewModel.loadPopular()
-    }
-
-    private fun initCategory() {
-        binding.progressBarCategory.visibility = View.VISIBLE
-        viewModel.loadCategory().observeForever {
-            binding.categoryView.layoutManager = LinearLayoutManager(
-                this@MainActivity, LinearLayoutManager.HORIZONTAL, false
-            )
-            binding.categoryView.adapter = CategoryAdapter(it)
-            binding.progressBarCategory.visibility= View.GONE
-        }
-        viewModel.loadCategory()
-    }
-
-    private fun initBanner(){
-        binding.progressBarBanner.visibility = View.VISIBLE
-        viewModel.loadBanner().observeForever {
-            Glide.with(this@MainActivity)
-                .load(it[0].url)
-                .into(binding.banner)
-            binding.progressBarBanner.visibility = View.GONE
-        }
-        viewModel.loadBanner()
     }
 }

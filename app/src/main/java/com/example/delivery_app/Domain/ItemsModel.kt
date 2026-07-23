@@ -1,7 +1,9 @@
-package com.example.delivery_app.Domain
+package com.example.delivery_app.domain
 
-import java.io.Serializable
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class ItemsModel(
     var title : String="",
     var description : String="",
@@ -9,5 +11,8 @@ data class ItemsModel(
     var price : Double=0.0,
     var rating : Double=0.0,
     var numberInCart : Int = 0,
-    var extra : String = ""
-) : Serializable
+    var extra : String = "",
+    var restaurantId : String = "",
+    var categoryId : String = ""
+) : Parcelable
+
